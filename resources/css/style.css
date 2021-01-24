@@ -1,0 +1,19 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+.bar {
+  fill: #0080FF;
+  stroke: black; 
+  stroke-width: 5
+} 
+
+.bar:hover {
+  fill : red 
+}
+
+.text {
+  fill:rebeccapurple; 
+  font-family: sans-serif
+}
