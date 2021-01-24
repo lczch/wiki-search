@@ -4,8 +4,9 @@ const svgHeight = 800;
 const fontSize = 12;
 const radius = 20;
 
-const ancestor = null; 
+var ancestor = null; 
 // type is in ['core', 'child', 'parent', 'special'], special是通过cookie记录下来的曾经搜索成功的匹配
+/*
 const nodes = [
     {title: 'Dwarf Fortress', type: 'core'}, 
     {title: 'Rimworld', type: 'child'},
@@ -23,6 +24,21 @@ const nodes2 = [
     {title: 'Rougualike', type: 'child'}, 
     {title: 'Dwarf(folkler)', type: 'child'},
 ];
+*/
+
+// 将nodes的原始数据加工
+function constructNodes(nodes){
+    var i;
+    for (i = 0; i < nodes.length; i++){
+        if (i === 0) {
+            nodes[i].type = 'core'
+        }
+        else {
+            nodes[i].type = 'child'
+        }
+    }
+    return nodes;
+}
 
 // construct links
 function constructLinks(nodes){

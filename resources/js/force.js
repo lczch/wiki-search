@@ -38,6 +38,9 @@ function generateNewNodes(d) {
 
 function drawPicture (nodes) {
 
+    // 从原始数据构建点
+    nodes = constructNodes(nodes);
+    
     // 构建图的边
     links = constructLinks(nodes);
 
