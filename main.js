@@ -1,9 +1,22 @@
 var http = require('http');
 var url = require('url');
 var path = require('path');
-var fs = require('fs')
+var fs = require('fs');
+var sw = require('./searchWiki');
+var nunjucks = require('nunjucks');
 
 var workDir = path.resolve('.');
+
+/*
+searchKeywords('Dwarf Fortress')
+    .then((nodes) => {
+        console.log(nodes);
+    });
+*/
+
+nunjucks.configure(
+    path.resolve(__dirname, 'resources'),
+    {autoescape: true}); 
 
 // 创建服务器:
 var server = http.createServer(function (request, response) {
@@ -18,12 +31,14 @@ var server = http.createServer(function (request, response) {
             // 发送200响应:
             response.writeHead(200);
             // 将文件流导向response:
-            if (pathname === 'force.html') {
+            if (pathname === "index.html") {
                 fs.createReadStream(filepath).pipe(response);
             } else {
-                fs.createReadStream(filepath).pipe(response);
+                sw.searchKeywords(url.parse(request.url).search["q"])
+                .then((data) => {
+                    console.log(data);
+                })
             }
-
         } else {
             // 出错了或者文件不存在:
             console.log('404 ' + request.url);
