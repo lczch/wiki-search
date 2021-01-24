@@ -1,5 +1,5 @@
 
-const svgWidth = 800;
+const svgWidth = 1200;
 const svgHeight = 800;
 const fontSize = 12;
 const radius = 20;

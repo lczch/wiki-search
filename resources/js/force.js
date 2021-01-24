@@ -7,6 +7,17 @@ var svg_texts;
 var svg_links; 
 var marker; 
 
+function generateNewNodes(d) {
+    window.location.assign("force.html" + "?q=" + d.title);
+    //d3.select("svg").remove();
+    //drawPicture(nodes2);
+};
+
+// 由节点的pageid构成指向节点wiki的url
+function openNodeInWiki(d) {
+    window.open("https://en.wikipedia.org/?curid=" + d.pageid);    
+}
+
 // 在探测到tick事件时, 进行更新的handler.
 function ticked() {
     svg_links
@@ -30,17 +41,11 @@ function ticked() {
         });
 };
 
-function generateNewNodes(d) {
-    window.location.assign("force.html" + "?q=" + d.title);
-    //d3.select("svg").remove();
-    //drawPicture(nodes2);
-};
-
 function drawPicture (nodes) {
 
     // 从原始数据构建点
     nodes = constructNodes(nodes);
-    
+
     // 构建图的边
     links = constructLinks(nodes);
 
@@ -85,6 +90,12 @@ function drawPicture (nodes) {
 
     // 双击事件
     svg_nodes.on("dblclick", generateNewNodes);
+    // ctrl + 单击事件
+    svg_nodes.on("click", function (d) {
+        if (d3.event.ctrlKey){
+            openNodeInWiki(d);
+        }
+    })
 }
 
 drawPicture(nodes);
