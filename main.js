@@ -15,18 +15,6 @@ searchKeywords('Dwarf Fortress')
         console.log(nodes);
     });
 */
-const unescapeHTML = str =>
-  str.replace(
-    /&amp;|&lt;|&gt;|&#39;|&quot;/g,
-    tag =>
-      ({
-        '&amp;': '&',
-        '&lt;': '<',
-        '&gt;': '>',
-        '&#39;': "'",
-        '&quot;': '"'
-      }[tag] || tag)
-  );
 
 nunjucks.configure(
     path.resolve(__dirname, 'resources'),
@@ -57,9 +45,9 @@ var server = http.createServer(function (request, response) {
                     s._read = () => {};
                     s.push(newForce);
                     s.push(null);
-                    console.log(newForce);
-                    //console.log(sdata);
-                    // s.pipe(fs.createWriteStream('temp'));
+                    //console.log(newForce);
+                    console.log(data);
+                    s.pipe(fs.createWriteStream('temp'));
                     s.pipe(response);
                 })
                 //console.log(nunjucks.render('force.html', {nodesDef: data}))

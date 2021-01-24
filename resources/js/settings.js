@@ -36,6 +36,8 @@ function constructNodes(nodes){
         else {
             nodes[i].type = 'child'
         }
+        // 去掉说明中的所有标签
+        nodes[i].snippet = nodes[i].snippet.replace(/<.*?>/g, '');
     }
     return nodes;
 }
@@ -135,6 +137,9 @@ function dragstarted(d) {
 function dragged(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
+    tooltip 
+        .style('left', d3.event.sourceEvent.pageX + 20 + 'px')
+        .style('top', d3.event.sourceEvent.pageY + 'px');
 }
 
 function dragended(d) {
@@ -142,6 +147,17 @@ function dragended(d) {
     d.fx = null;
     d.fy = null;
 }
+
+var tooltip = d3.select('body')
+      	.append('div')
+      	.style('position', 'absolute')
+        .style('z-index', '10')
+      	.style('color', '#3497db')
+        .style('visibility', 'hidden')   // 是否可见（一开始设置为隐藏）
+        .style('font-size', '12px')
+        .style('font-weight', 'bold')
+        .style('width', '400px')  
+      	.text('');
 
 // 定义画图函数
 function drawNodes (svg, nodes, radius, color, dragstarted, dragged, dragended){
@@ -155,26 +171,15 @@ function drawNodes (svg, nodes, radius, color, dragstarted, dragged, dragended){
     .attr('r', radius)
     .attr('fill', function(d, i){ return color(i)})
     .attr('fill-opacity', 0.6)
-    /*
-    .on('mouseover', function(d) {
-        d3.select(this).classed('node-hover', true);
-        tooltip
-            .html(d.title)
-            .style('left', d3.event.pageX + 20 + 'px')
-            .style('top', d3.event.pageY + 'px')
-            .style('opacity', 1.0)
+    .on('mouseover', function(d){
+        return tooltip.style('visibility', 'visible').text(d.snippet)
     })
     .on('mousemove', function(d){
-        d3.select(this).classed('node-hover', true);
-        tooltip
-            .style('left', d3.event.pageX + 20 + 'px')
-            .style('top', d3.event.pageY + 'px')
+        return tooltip.style('top', (event.pageY-10)+'px').style('left',(event.pageX+10)+'px')
     })
     .on('mouseout', function(d){
-        d3.select(this).classed('node-hover', false);
-        tooltip.style('opacity', 0.0)
+        return tooltip.style('visibility', 'hidden')
     })
-    */   
     .call(
         d3
         .drag()
