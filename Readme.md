@@ -25,6 +25,7 @@ npm install
 ``` sh
 node main.js
 ```
+然后在本地打开127.0.0.1:8080/index.html就可以了.
 
 ## 基本操作
 - 鼠标可以随意拖动节点;
