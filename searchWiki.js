@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const wikiUrl = 'https://en.wikipedia.org/w/api.php';
 
 // https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=abc&format=json
  
