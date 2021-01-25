@@ -1,6 +1,6 @@
 # Wiki Search
 
-
+![image](https://github.com/lczch/wiki-search/blob/master/resources/img/ScreenClip.png)
 
 ## 用处
   本项目搭建了一个搜索的前端, 通过输入你先要在wikipedia上查找的keywords, 它可以帮你把相关的节点用图形化, 在图画中进行进一步的搜索.
