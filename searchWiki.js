@@ -23,7 +23,7 @@ async function searchKeywords (keywords) {
     url = url.replace(/&$/, '');
     console.log(url);
     
-    let browser = await puppeteer.launch();
+    let browser = await puppeteer.launch({headless: true, args:['--no-sandbox']});
     let page = await browser.newPage();
 
     let response = await page.goto(url); 
