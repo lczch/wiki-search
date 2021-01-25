@@ -1,0 +1,27 @@
+{
+  "name": "wiki-search",
+  "version": "1.0.0",
+  "description": "search wiki and show the result as a graph.",
+  "main": "main.js",
+  "dependencies": {
+    "js-cookie": "^2.2.1",
+    "nunjucks": "^3.2.2",
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lczch/wiki-search.git"
+  },
+  "keywords": [
+    "wiki",
+    "force-graph",
+    "d3",
+    "js"
+  ],
+  "author": "rice-wine",
+  "license": "ISC"
+}
