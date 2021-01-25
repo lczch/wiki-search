@@ -66,9 +66,9 @@ var server = http.createServer(function (request, response) {
                     });
                     res.on('end', () => {
                         body = JSON.parse(body);
-                        console.log("body=", body);
                         let data = body.query.search;
                 
+                        console.log("data=", data);
                         if (params.get('changeAncestor') != 'false') {
                             // 如果ancestor为null, 说明这是逻辑上的第一次搜索
                             ancestor = data[0];
