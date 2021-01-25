@@ -49,15 +49,15 @@ var server = http.createServer(function (request, response) {
                 }; 
    
                  // construct url to search in wiki
-                var url = wikiUrl + '?';
+                var myurl = wikiUrl + '?';
                 Object.keys(urlparams).forEach( 
                     function(key){
-                    url = url + key + '=' + urlparams[key] + '&';
+                    myurl = myurl + key + '=' + urlparams[key] + '&';
                 });
-                url = url.replace(/&$/, '');
-                console.log(url);
+                myurl = myurl.replace(/&$/, '');
+                console.log(myurl);
     
-                https.get(url, res => {
+                https.get(myurl, res => {
                     res.setEncoding('utf8');
                     let body = "";
                     res.on('data', data => {
