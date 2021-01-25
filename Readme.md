@@ -16,8 +16,9 @@
 http://195.245.239.29/index.html
 
 ## 安装
+注意: 请使用branch version-1, 其他的branch不如这个稳定. 
 ``` sh
-git cloen git@github.com:lczch/wiki-search.git
+git clone git@github.com:lczch/wiki-search.git
 cd wiki-search
 npm install
 ```
