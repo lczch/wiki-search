@@ -3,7 +3,7 @@
 ![image](https://github.com/lczch/wiki-search/blob/master/resources/img/ScreenClip.png)
 
 ## 用处
-  本项目搭建了一个搜索的前端, 通过输入你先要在wikipedia上查找的keywords, 它可以帮你把相关的节点用图形化, 在图画中进行进一步的搜索.
+  本项目搭建了一个搜索的前端, 通过输入你想要在wikipedia上查找的keyword, 它可以帮你把相关的节点图像化, 在图画上进行进一步的搜索.
 
 ## 特点
 - 使用force graph的方式呈现节点, 你可以随意拖动节点, 并在节点上进行操作.
