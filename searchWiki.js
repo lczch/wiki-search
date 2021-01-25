@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const wikiUrl = 'https://en.wikipedia.org/w/api.php';
+const https = require('https')
 
 // https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=abc&format=json
  
@@ -37,3 +38,33 @@ async function searchKeywords (keywords) {
     return searchData;
 }
 
+exports.searchKeySimple = 
+    function searchKeySimple (keywords) {
+    var params = {
+        action: 'query', 
+        list: 'search', 
+        srsearch: keywords, 
+        format: 'json'
+    }; 
+   
+    // construct url to search in wiki
+    var url = wikiUrl + '?';
+    Object.keys(params).forEach( 
+        function(key){
+            url = url + key + '=' + params[key] + '&';
+        });
+    url = url.replace(/&$/, '');
+    console.log(url);
+    
+    https.get(url, res => {
+        res.setEncoding('utf8');
+        let body = "";
+        res.on('data', data => {
+            body += data;
+        });
+        res.on('end', () => {
+            body = JSON.parse(body);
+            console.log(body);
+        })
+    })
+    }

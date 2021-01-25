@@ -38,7 +38,56 @@ var server = http.createServer(function (request, response) {
             // 将文件流导向response:
             if (pathname.match(/force.html$/)) {
                 let params = new URLSearchParams (url.parse(request.url).search);
+           
                 
+                var params = {
+                    action: 'query', 
+                    list: 'search', 
+                    srsearch: keywords, 
+                    format: 'json'
+                }; 
+   
+                 // construct url to search in wiki
+                var url = wikiUrl + '?';
+                Object.keys(params).forEach( 
+                    function(key){
+                    url = url + key + '=' + params[key] + '&';
+                });
+                url = url.replace(/&$/, '');
+                console.log(url);
+    
+                https.get(url, res => {
+                    res.setEncoding('utf8');
+                    let body = "";
+                    res.on('data', data => {
+                       body += data;
+                    });
+                    res.on('end', () => {
+                        body = JSON.parse(body);
+                        console.log("body=", body);
+                        let data = body;
+                
+                        if (params.get('changeAncestor') != 'false') {
+                            // 如果ancestor为null, 说明这是逻辑上的第一次搜索
+                            ancestor = data[0];
+                            sancestor = JSON.stringify(ancestor);
+                        }
+                        let sdata = JSON.stringify(data);
+                        const newForce = nunjucks.render('force.html', {nodesDef: sdata, ancestorDef: sancestor});
+                        // 把填充后的模板转化成字符流, 以便塞给response
+                        const s = new Readable();
+                        s._read = () => {};
+                        s.push(newForce);
+                        s.push(null);
+                        s.pipe(response);
+                    })})
+                
+
+
+
+                
+
+                /*
                 sw.searchKeywords(params.get('q'))
                 .then((data) => {
                     if (params.get('changeAncestor') != 'false') {
@@ -55,7 +104,7 @@ var server = http.createServer(function (request, response) {
                     s.push(null);
                     s.pipe(response);
                 })
-                
+                */
             }
             else {
                 if (pathname.match(/index.html$/)) {
