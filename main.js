@@ -40,18 +40,18 @@ var server = http.createServer(function (request, response) {
                 let params = new URLSearchParams (url.parse(request.url).search);
            
                 
-                var params = {
+                var urlparams = {
                     action: 'query', 
                     list: 'search', 
-                    srsearch: keywords, 
+                    srsearch: params.get("q"), 
                     format: 'json'
                 }; 
    
                  // construct url to search in wiki
                 var url = wikiUrl + '?';
-                Object.keys(params).forEach( 
+                Object.keys(urlparams).forEach( 
                     function(key){
-                    url = url + key + '=' + params[key] + '&';
+                    url = url + key + '=' + urlparams[key] + '&';
                 });
                 url = url.replace(/&$/, '');
                 console.log(url);
