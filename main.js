@@ -7,6 +7,9 @@ var nunjucks = require('nunjucks');
 const { rawListeners } = require('process');
 const Readable  = require('stream').Readable;
 
+var ancestor = null;
+var sancestor; 
+
 var workDir = path.resolve('.');
 
 /*
@@ -25,7 +28,7 @@ var server = http.createServer(function (request, response) {
     var pathname = url.parse(request.url).pathname; 
     var filepath = path.join(workDir, 'resources', pathname);
 
-    console.log(pathname);
+    // console.log(pathname);
     fs.stat(filepath, function (err, stats) {
         if (!err && stats.isFile()) {
             // 没有出错并且文件存在:
@@ -35,24 +38,30 @@ var server = http.createServer(function (request, response) {
             // 将文件流导向response:
             if (pathname.match(/force.html$/)) {
                 let params = new URLSearchParams (url.parse(request.url).search);
-
+                
                 sw.searchKeywords(params.get('q'))
                 .then((data) => {
+                    if (params.get('changeAncestor') != 'false') {
+                        // 如果ancestor为null, 说明这是逻辑上的第一次搜索
+                        ancestor = data[0];
+                        sancestor = JSON.stringify(ancestor);
+                    }
                     let sdata = JSON.stringify(data);
-                    const newForce = nunjucks.render('force.html', {nodesDef: sdata});
+                    const newForce = nunjucks.render('force.html', {nodesDef: sdata, ancestorDef: sancestor});
                     // 把填充后的模板转化成字符流, 以便塞给response
                     const s = new Readable();
                     s._read = () => {};
                     s.push(newForce);
                     s.push(null);
-                    //console.log(newForce);
-                    console.log(data);
-                    s.pipe(fs.createWriteStream('temp'));
                     s.pipe(response);
                 })
-                //console.log(nunjucks.render('force.html', {nodesDef: data}))
+                
             }
             else {
+                if (pathname.match(/index.html$/)) {
+                    //这时候开始重新搜索了, ancestor清空
+                    ancestor = null;
+                }
                 fs.createReadStream(filepath).pipe(response);
             }
             
@@ -65,6 +74,7 @@ var server = http.createServer(function (request, response) {
         }
     });
 });
+
 
 server.listen(8080);
 

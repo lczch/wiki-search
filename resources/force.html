@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bar Chart</title>
+    <title>Wiki Force Map</title>
     <link rel="stylesheet" type="text/css" href="css/style-force.css">
 
     <!-- Alternatively use d3.js here -->
@@ -12,8 +12,15 @@
 
   <body>
     <script>
+        var ancestor = {{ancestorDef}};
+
         var nodes = {{nodesDef}};
     </script>
+    <!--script>
+        var ancestor = {"ns":0,"title":"ASDF","pageid":5257405,"size":445,"wordcount":61,"snippet":"<span class=\"searchmatch\">ASDF</span> may refer to: Advanced Scientific Data Format, a form of storing astronomical data Air Self-Defense Force, in Japan Alabama State Defense Force, a","timestamp":"2020-12-16T18:51:08Z"};
+
+        var nodes = [{"ns":0,"title":"ASDF","pageid":5257405,"size":445,"wordcount":61,"snippet":"<span class=\"searchmatch\">ASDF</span> may refer to: Advanced Scientific Data Format, a form of storing astronomical data Air Self-Defense Force, in Japan Alabama State Defense Force, a","timestamp":"2020-12-16T18:51:08Z"},{"ns":0,"title":"QWERTY","pageid":25213,"size":92117,"wordcount":10188,"snippet":"QWERTY (/ˈkwɜːrti/) is a keyboard design for Latin-script alphabets. The name comes from the order of the first six keys on the top left letter row of","timestamp":"2021-01-18T23:23:26Z"},{"ns":0,"title":"Alabama State Defense Force","pageid":2541252,"size":11091,"wordcount":1017,"snippet":"The Alabama State Defense Force (<span class=\"searchmatch\">ASDF</span>) is the state provided guard of the State of Alabama allowed by the Constitution of Alabama, The Code of Alabama","timestamp":"2021-01-21T18:07:07Z"},{"ns":0,"title":"Alaska State Defense Force","pageid":17165181,"size":15510,"wordcount":1529,"snippet":"The Alaska State Defense Force (<span class=\"searchmatch\">ASDF</span>) is the state defense force of Alaska. It is one of 23 such forces in the U.S. states. The Alaska State Defense Force","timestamp":"2020-05-05T20:40:56Z"},{"ns":0,"title":"Filler text","pageid":4927021,"size":5389,"wordcount":520,"snippet":"although the text itself may be nonsense, or largely Latin, as in Lorem ipsum. <span class=\"searchmatch\">ASDF</span> is the sequence of letters that appear on the first four keys on the home","timestamp":"2021-01-11T03:55:14Z"},{"ns":0,"title":"TomSka","pageid":43671278,"size":18260,"wordcount":1499,"snippet":"Dead: the <span class=\"searchmatch\">asdf</span> book (2015, Little Brown Book Group, ISBN 9780751563047) Sam Kills Christmas (2018, Little Brown Book Group, ISBN 0751563056) &quot;<span class=\"searchmatch\">asdf</span>&quot; pronounced","timestamp":"2021-01-23T19:18:42Z"},{"ns":0,"title":"Another System Definition Facility","pageid":13985371,"size":3298,"wordcount":322,"snippet":"<span class=\"searchmatch\">ASDF</span> (Another System Definition Facility) is a package format and a build tool for Common Lisp libraries. It is analogous to tools such as Make and Ant","timestamp":"2020-09-21T20:44:47Z"},{"ns":0,"title":"Mitsubishi F-2","pageid":313936,"size":34412,"wordcount":3573,"snippet":"org/web/20090509093421/http://www.mod.go.jp/<span class=\"searchmatch\">asdf</span>/english/formation/index.html (accessed on February 9, 2007) https://www.mod.go.jp/<span class=\"searchmatch\">asdf</span>/equipment/sentouki/F-2/index","timestamp":"2021-01-15T20:02:14Z"},{"ns":0,"title":"Awards and decorations of the State Defense Forces","pageid":3519326,"size":38602,"wordcount":2509,"snippet":"Force (<span class=\"searchmatch\">ASDF</span>) Awards: <span class=\"searchmatch\">ASDF</span> Alabama War Ribbon <span class=\"searchmatch\">ASDF</span> Distinguished Service Ribbon <span class=\"searchmatch\">ASDF</span> Meritorious Service Ribbon <span class=\"searchmatch\">ASDF</span> Commendation Ribbon <span class=\"searchmatch\">ASDF</span> Achievement","timestamp":"2020-12-01T02:17:14Z"},{"ns":0,"title":"Keysmash","pageid":63409807,"size":7085,"wordcount":923,"snippet":"'<span class=\"searchmatch\">asdf</span>' appear as their own slang term in several online dictionaries such as dictionary.com. The typical keysmash tends to be much longer than '<span class=\"searchmatch\">asdf</span>'","timestamp":"2021-01-10T09:43:22Z"}];
+    </script-->
     <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript" src="js/force.js"></script>
   </body>

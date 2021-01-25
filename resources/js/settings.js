@@ -1,10 +1,9 @@
 
 const svgWidth = 1200;
-const svgHeight = 800;
+const svgHeight = 600;
 const fontSize = 12;
 const radius = 20;
 
-var ancestor = null; 
 // type is in ['core', 'child', 'parent', 'special'], special是通过cookie记录下来的曾经搜索成功的匹配
 /*
 const nodes = [
@@ -25,6 +24,77 @@ const nodes2 = [
     {title: 'Dwarf(folkler)', type: 'child'},
 ];
 */
+// 返回具有给定 name 的 cookie，
+// 如果没找到，则返回空串. (undefined简直有毒)
+function getCookie(name) {
+    var reg = new RegExp("(?:^|;)[\\s]*" + name + "=(.*)[\\s]*(?:;|$)");
+
+    let matches = document.cookie.match(reg);
+    //console.log('name=', name);
+    //console.log('reg=', reg)
+    //console.log('matches=', matches);
+    if (matches) {
+        return matches[1];
+    } else {
+        return undefined;
+    }
+}
+
+function setCookie(name, value, options = {}) {
+  const defaultOptions = {
+    path: '/',
+    // 如果需要，可以在这里添加其他默认值
+    'max-age': 7*24*60*60 
+  };
+  //console.log('original options=', options)
+  for (let optionKey in defaultOptions) {
+      if (!options.hasOwnProperty(optionKey)) {
+          options[optionKey] = defaultOptions[optionKey];
+      }
+  }
+  //console.log('options=', options);
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = name + '=' + value + ';';
+  let optionValue;
+
+  for (let optionKey in options) {
+    updatedCookie = updatedCookie + optionKey + '=' + JSON.stringify(options[optionKey]) + ';';
+  }
+
+  //console.log('updateCookie=', updatedCookie);
+  document.cookie = updatedCookie;
+  //console.log('after updateCookies=', getCookie(name));
+  //console.log('domument.cookie=', document.cookie);
+}
+
+// 不覆盖name原有的值, 而是在后面添加.
+function appendCookie(name, value) {
+    var data = getCookie(name);
+    //console.log('cookie:', document.cookie);
+    //console.log('befor name, data:', name, data);
+    if (typeof(data) === 'undefined') {
+        // 总是将json字符串先还原成数据, 防止嵌套过多. 
+        data = JSON.stringify([JSON.parse(value)]);
+        setCookie(name, data);
+    } else {
+        let seq = JSON.parse(data);
+        //console.log('after parsed data, type:', seq, typeof(seq));
+        // if (Array.isArray(data)) {alert("Error!")};
+        seq.push(JSON.parse(value));
+        setCookie(name, JSON.stringify(seq));
+    }
+    //console.log('after cookie:', document.cookie);   
+}
+
+// 删除
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
+  })
+}
 
 // 将nodes的原始数据加工
 function constructNodes(nodes){
@@ -39,6 +109,30 @@ function constructNodes(nodes){
         // 去掉说明中的所有标签
         nodes[i].snippet = nodes[i].snippet.replace(/<.*?>/g, '');
     }
+
+    // 从cookie中找到special的点, 加入图中.
+    let sNodes = getCookie(nodes[0].pageid);
+    if (typeof(sNodes) != 'undefined') {
+        sNodes = JSON.parse(sNodes);
+        for (var i=0; i < sNodes.length; i++){
+            for (var j = 1; j < nodes.length; j++){
+                if (nodes[j].pageid == sNodes[i].pageid) {
+                    nodes[j].type = 'special';
+                    break;
+                }
+            }
+
+            if (j == nodes.length) {
+                let node = new Object(); 
+                node.pageid = sNodes[i].pageid;
+                node.title = sNodes[i].title;
+                node.snippet = 'Not Download Yet';
+                node.type = 'special';
+                nodes[j] = node;
+            }
+        }
+    }
+
     return nodes;
 }
 
@@ -92,8 +186,8 @@ const links = [
 // 绘制幕布
 function constructSvg(){
     return d3
-    .select("body")
-    .append("svg")
+    .select('body')
+    .append('svg')
     .attr('class', 'relationship-chart')
     .attr('height', svgHeight)
     .attr('width', svgWidth);
@@ -119,12 +213,6 @@ function calcLayoutForNodes(nodes, linkForce){
     .force('collision', d3.forceCollide().radius(d => radius))
     .force('center', d3.forceCenter(svgWidth/2, svgHeight/2)); 
 };
-
-// 创建节点颜色
-const color = d3 
-    .scaleLinear()
-    .domain([0, 10])
-    .range(['red', 'blue']);
 
 
 // 定义拖拽函数
@@ -159,7 +247,7 @@ var tooltip = d3.select('body')
         .style('width', '400px')  
       	.text('');
 
-// 定义画图函数
+// 定义画出节点的函数
 function drawNodes (svg, nodes, radius, color, dragstarted, dragged, dragended){
     return svg 
     .selectAll('circle')
@@ -226,7 +314,14 @@ function createSvgLinks(svg, links){
     .append('path')
     .attr('class', 'mypath')
     .attr('stroke-width', 1)
-    .attr('stroke', '#ddd')
+    // 如果type是special, 那么设置为醒目的红色.
+    .attr('stroke', function(d){
+        if (d.type === 'special') {
+            return 'red';
+        }
+        else {
+            return '#ddd';
+        }})
     .call(
       d3
         .zoom() //创建缩放行为
