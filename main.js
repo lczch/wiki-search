@@ -13,6 +13,7 @@ var sancestor;
 
 var workDir = path.resolve('.');
 
+const wikiUrl = 'https://en.wikipedia.org/w/api.php';
 /*
 searchKeywords('Dwarf Fortress')
     .then((nodes) => {
