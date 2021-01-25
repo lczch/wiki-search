@@ -1,8 +1,9 @@
-var http = require('http');
-var url = require('url');
-var path = require('path');
-var fs = require('fs');
-var sw = require('./searchWiki');
+const http = require('http');
+const https = require('https');
+const url = require('url');
+const path = require('path');
+const fs = require('fs');
+const sw = require('./searchWiki');
 var nunjucks = require('nunjucks');
 const { rawListeners } = require('process');
 const Readable  = require('stream').Readable;
